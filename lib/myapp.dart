@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_flutter/home_controller.dart';
-import 'package:pi_flutter/home_page.dart';
-import 'package:pi_flutter/login_page.dart';
+import 'views/login_page.dart';
+import 'views/home_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -9,6 +9,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(fontFamily: 'DM Sans'),
+      debugShowCheckedModeBanner: false,
       home: HomeController(
         child: LoginPage(),
       ),
