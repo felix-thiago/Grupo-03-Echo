@@ -9,10 +9,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'DM Sans'),
+      theme: ThemeData(
+        fontFamily: 'DM Sans',
+        scaffoldBackgroundColor: Colors.white,
+      ),
       debugShowCheckedModeBanner: false,
       home: HomeController(
-        child: LoginPage(),
+        child: HomePage(),
       ),
     );
   }
