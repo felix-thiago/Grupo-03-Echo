@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_flutter/components/carrouselcard.dart';
 import 'package:pi_flutter/home_controller.dart';
 
 // class HomePage extends StatelessWidget {
@@ -39,18 +40,60 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Echo',
+          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w700),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.notifications_none,
+              color: Colors.black,
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.add_shopping_cart,
+              color: Colors.black,
+            ),
+          )
+        ],
       ),
-      body: Center(
-        child: Text('ECHO $counter'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          setState(() {
-            counter++;
-          });
-        },
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+        child: Column(
+          children: [
+            TextField(
+              onChanged: (text) {
+                // setState(() {
+                //   email = text;
+                // });
+              },
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                suffixIcon: Icon(Icons.search),
+                suffixIconColor: Colors.black,
+                contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
+                labelText: 'O que você procura?',
+                labelStyle: TextStyle(fontSize: 12),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15),
+                  ),
+                ),
+                filled: true,
+                fillColor: Color.fromARGB(255, 248, 248, 248),
+              ),
+            ),
+            const CarrouselCard()
+          ],
+        ),
       ),
     );
   }
