@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pi_flutter/components/carrouselcard.dart';
+import 'package:pi_flutter/components/carrousel_card.dart';
+import 'package:pi_flutter/components/category_scroll.dart';
 import 'package:pi_flutter/home_controller.dart';
 
 // class HomePage extends StatelessWidget {
@@ -39,6 +40,31 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            label: "Home",
+            icon: IconButton(
+              icon: Icon(Icons.home_outlined),
+              onPressed: () {},
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: "Pedido",
+            icon: IconButton(
+              icon: Icon(Icons.shopping_bag_outlined),
+              onPressed: () {},
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: "Conta",
+            icon: IconButton(
+              icon: Icon(Icons.account_circle),
+              onPressed: () {},
+            ),
+          ),
+        ],
+      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -91,7 +117,8 @@ class _HomePageState extends State<HomePage> {
                 fillColor: Color.fromARGB(255, 248, 248, 248),
               ),
             ),
-            const CarrouselCard()
+            const CarrouselCard(),
+            const CategoryScroll()
           ],
         ),
       ),

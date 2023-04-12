@@ -56,6 +56,12 @@ flutter:
   assets:
     - assets/images/foto1.png
     - assets/images/foto2.png
+    - assets/images/drum.png
+    - assets/images/guitar.png
+    - assets/images/mic.png
+    - assets/images/piano.png
+    - assets/images/tag.png
+    - assets/images/trumpet.png
   fonts:
     - family: DM Sans
       fonts:
