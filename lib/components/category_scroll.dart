@@ -8,7 +8,7 @@ class CategoryScroll extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
       child: Container(
-        height: 80,
+        height: 90,
         child: ListView.separated(
           separatorBuilder: (context, index) {
             return SizedBox(
@@ -20,8 +20,8 @@ class CategoryScroll extends StatelessWidget {
           itemCount: 6,
           itemBuilder: (ctx, indice) {
             return SizedBox(
-              width: 50,
-              height: 50,
+              width: 80,
+              height: 80,
               child: Column(
                 children: [
                   Container(
@@ -42,7 +42,7 @@ class CategoryScroll extends StatelessWidget {
                     child: Text(
                       category[indice],
                       style:
-                          TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                     ),
                   )
                 ],

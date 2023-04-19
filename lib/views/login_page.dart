@@ -141,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                                   if (email == 'senac.sp@senac.com.br' &&
                                       password == '1234') {
                                     print('Correto');
-                                    //Navigator.of(context).push(
+                                    Navigator.of(context).pushNamed('/login');
                                     Navigator.of(context).pushReplacement(
                                         //-- Para eliminar o botao voltar da HomePage
                                         MaterialPageRoute(
