@@ -59,4 +59,5 @@ class CarrouselCard extends StatelessWidget {
 }
 /*
   teste
-*/
+*/ 
+
