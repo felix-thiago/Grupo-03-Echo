@@ -5,8 +5,8 @@ class ProductRepository {
 
   ProductRepository({required this.apiProduct});
 
-  Future<List<dynamic>> getProduct() {
-    print(apiProduct.getProduct());
-    return apiProduct.getProduct();
+  Future<List<dynamic>> getProduct(int itemsQuantity) {
+    // print(apiProduct.getProduct());
+    return apiProduct.getProduct(itemsQuantity);
   }
 }

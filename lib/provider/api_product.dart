@@ -18,11 +18,12 @@ class ApiProduct {
   //   return resp;
   // }
 
-  Future<List<dynamic>> getProduct() async {
+  Future<List<dynamic>> getProduct(int itemsQuantity) async {
     List<dynamic> resp;
     resp = [];
     // var url = Uri.parse(baseUrl);
-    var url = Uri.parse('https://fakestoreapi.com/products?limit=8');
+    var url =
+        Uri.parse('https://fakestoreapi.com/products?limit=$itemsQuantity');
 
     try {
       var response = await httpClient
