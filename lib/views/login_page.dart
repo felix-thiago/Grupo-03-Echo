@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:pi_flutter/provider/api_user.dart';
+import 'package:pi_flutter/repository/user_repository.dart';
 import 'package:pi_flutter/views/main_page.dart';
-
 import 'home_page.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   String email = '';
   String password = '';
   bool seePassword = false;
+  bool loginStatus = false;
 
   @override
   Widget build(BuildContext context) {
@@ -142,17 +144,18 @@ class _LoginPageState extends State<LoginPage> {
                                   Color.fromARGB(255, 54, 105, 201)),
                           onPressed: email.isEmpty && password.isEmpty
                               ? null
-                              : () {
-                                  if (email == 'senac.sp@senac.com.br' &&
-                                      password == '1234') {
+                              : () async {
+                                  loginStatus = await UserRepository(
+                                          apiUser: ApiUser(
+                                              httpClient: http.Client()))
+                                      .login(email, password);
+                                  if (loginStatus) {
                                     print('Correto');
                                     // Navigator.of(context).pushNamed('/home');
                                     Navigator.of(context).pushReplacement(
                                         //-- Para eliminar o botao voltar da HomePage
                                         MaterialPageRoute(
-
                                             builder: (context) => MainPage()));
-
                                   } else {
                                     print('Login Invalido');
                                   }

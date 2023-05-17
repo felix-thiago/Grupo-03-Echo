@@ -1,11 +1,11 @@
 class BuyModel {
-  final int id;
+  int? id;
   final int userId;
   final String date;
-  final List products;
+  final products;
 
   BuyModel(
-      {required this.id,
+      {this.id,
       required this.userId,
       required this.date,
       required this.products});

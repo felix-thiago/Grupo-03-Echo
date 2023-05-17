@@ -3,8 +3,10 @@
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:pi_flutter/models/product_model.dart';
+import 'package:pi_flutter/provider/api_buy.dart';
 import 'package:pi_flutter/provider/api_cart.dart';
 import 'package:pi_flutter/provider/api_product.dart';
+import 'package:pi_flutter/repository/buy_repository.dart';
 import 'package:pi_flutter/repository/cart_repository.dart';
 import 'package:pi_flutter/repository/product_repository.dart';
 
@@ -17,6 +19,8 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   num total = 0;
+  var quantity;
+  var orderTotal;
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +30,29 @@ class _CartPageState extends State<CartPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var product = snapshot.data as List<dynamic>;
+            // print(product.length);
             total = 0;
             product.forEach(
               (element) {
-                total = total + double.parse(element.total);
+                double teste = double.parse(element["product"].total);
+                total = total + double.parse(teste.toStringAsFixed(2));
               },
             );
+            if (product.length == 0) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.shopping_cart_outlined),
+                    Text(
+                      'Carrinho vázio',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+              );
+            }
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Padding(
@@ -67,13 +88,16 @@ class _CartPageState extends State<CartPage> {
                         shrinkWrap: true,
                         itemCount: product.length,
                         itemBuilder: (context, index) {
+                          // orderTotal = product[index]['product'].total;
+                          var quantity =
+                              int.parse(product[index]['product'].quantity);
                           return Column(
                             // shrinkWrap: true,
                             // physics: NeverScrollableScrollPhysics(),
                             // padding: EdgeInsets.fromLTRB(0, 16, 0, 16),
                             children: [
                               Text(
-                                'Guitarra Fender Stratocaster 506 Black',
+                                '${product[index]['product'].title}',
                               ),
                               SizedBox(
                                 height: 12,
@@ -93,7 +117,7 @@ class _CartPageState extends State<CartPage> {
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                              product[index].image),
+                                              product[index]['product'].image),
                                         ),
                                       ),
                                     ),
@@ -102,7 +126,7 @@ class _CartPageState extends State<CartPage> {
                                           MediaQuery.of(context).size.height,
                                       // alignment: Alignment.center,
                                       // color: Colors.red,
-                                      width: 105,
+                                      width: 110,
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -113,16 +137,68 @@ class _CartPageState extends State<CartPage> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               IconButton(
-                                                onPressed: () {},
-                                                icon: Icon(
-                                                    Icons.add_circle_outline),
+                                                onPressed: () {
+                                                  if (quantity > 0) {
+                                                    quantity--;
+                                                    CartRepository(
+                                                            apiCart: ApiCart(
+                                                                httpClient: http
+                                                                    .Client()))
+                                                        .updateCart(
+                                                            product[index]
+                                                                ['product'],
+                                                            int.parse(product[
+                                                                            index]
+                                                                        [
+                                                                        'product']
+                                                                    .quantity) -
+                                                                1,
+                                                            double.parse(product[
+                                                                            index]
+                                                                        [
+                                                                        'product']
+                                                                    .price) *
+                                                                quantity,
+                                                            product[index]
+                                                                ["id"]);
+                                                    setState(() {});
+                                                  }
+                                                },
+                                                icon: Icon(Icons
+                                                    .remove_circle_outline),
                                               ),
                                               Text(
-                                                  '${product[index].quantity}'),
+                                                  '${product[index]['product'].quantity}'),
                                               IconButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  quantity++;
+                                                  print('teste');
+                                                  CartRepository(
+                                                          apiCart: ApiCart(
+                                                              httpClient:
+                                                                  http
+                                                                      .Client()))
+                                                      .updateCart(
+                                                          product[index]
+                                                              ['product'],
+                                                          int.parse(product[
+                                                                          index]
+                                                                      [
+                                                                      'product']
+                                                                  .quantity) +
+                                                              1,
+                                                          double.parse(product[
+                                                                          index]
+                                                                      [
+                                                                      'product']
+                                                                  .price) *
+                                                              quantity,
+                                                          product[index]["id"]);
+                                                  setState(() {});
+                                                },
                                                 icon: Icon(
-                                                    Icons.add_circle_outline),
+                                                  Icons.add_circle_outline,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -139,13 +215,22 @@ class _CartPageState extends State<CartPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Text('R\S ${product[index].total}'),
+                                          Text(
+                                              'R\S ${double.parse(product[index]['product'].price) * int.parse(product[index]['product'].quantity)}'),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
                                               IconButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  CartRepository(
+                                                          apiCart: ApiCart(
+                                                              httpClient: http
+                                                                  .Client()))
+                                                      .deleteCart(
+                                                          product[index]["id"]);
+                                                  setState(() {});
+                                                },
                                                 icon: Icon(
                                                   Icons.delete,
                                                   size: 30,
@@ -226,7 +311,19 @@ class _CartPageState extends State<CartPage> {
                                   backgroundColor:
                                       Color.fromARGB(255, 54, 105, 201),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  BuyRepository(
+                                          apiBuy:
+                                              ApiBuy(httpClient: http.Client()))
+                                      .postBuy(product);
+                                  product.forEach((element) {
+                                    CartRepository(
+                                            apiCart: ApiCart(
+                                                httpClient: http.Client()))
+                                        .deleteCart(element["id"]);
+                                  });
+                                  setState(() {});
+                                },
                                 child: const Text('Finalizar Compra'))
                           ],
                         ),

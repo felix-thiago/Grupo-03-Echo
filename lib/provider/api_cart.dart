@@ -14,7 +14,7 @@ class ApiCart {
     List<dynamic> resp;
     resp = [];
 
-    var url = Uri.parse('http://192.168.0.8:3000/cart/');
+    var url = Uri.parse('http://10.135.246.61:3000/cart/');
 
     try {
       var response = await httpClient
@@ -28,7 +28,10 @@ class ApiCart {
 
         jsonResponse.forEach(
           (product) {
-            var el = CartProductModel.fromJson(product['product']);
+            var el = {
+              "product": CartProductModel.fromJson(product['product']),
+              "id": product['id']
+            };
             resp.add(el);
           },
         );
@@ -55,20 +58,9 @@ class ApiCart {
       total: orderTotal.toString(),
     ).toJson();
 
-    var body = {
-      "product": {
-        "id": product.id.toString(),
-        "title": product.title,
-        "price": product.price.toString(),
-        "category": product.category,
-        "description": product.description,
-        "image": product.image,
-        "quantity": quantity.toString(),
-        "total": orderTotal.toString(),
-      }
-    };
+    var body = {"product": newproduct};
     print(json.encode(body));
-    var url = Uri.parse('http://192.168.0.8:3000/cart/');
+    var url = Uri.parse('http://10.135.246.61:3000/cart/');
 
     try {
       var response = await httpClient.post(url,
@@ -79,6 +71,54 @@ class ApiCart {
       //   print('errooooo');
       //   throw "Erro: Não foi possível acessar sua requisição";
       // }
+    } catch (e) {
+      throw "$e";
+    }
+  }
+
+  Future<void> updateCart(product, int quantity, orderTotal, id) async {
+    var newproduct = CartProductModel(
+      id: product.id.toString(),
+      title: product.title,
+      price: product.price.toString(),
+      category: product.category,
+      description: product.description,
+      image: product.image,
+      quantity: quantity.toString(),
+      total: orderTotal.toString(),
+    ).toJson();
+
+    var body = {"product": newproduct};
+    // print(json.encode(body));
+    var url = Uri.parse('http://10.135.246.61:3000/cart/$id');
+
+    try {
+      var response = await httpClient.put(url,
+          headers: {'Content-Type': 'application/json; charset=UTF-8'},
+          body: convert.jsonEncode(body));
+
+      // if (response.statusCode != 200) {
+      //   print('errooooo');
+      //   throw "Erro: Não foi possível acessar sua requisição";
+      // }
+    } catch (e) {
+      throw "$e";
+    }
+  }
+
+  Future<void> deleteCart(id) async {
+    var url = Uri.parse('http://10.135.246.61:3000/cart/$id');
+
+    try {
+      var response = await httpClient.delete(
+        url,
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      );
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        print('errooooo');
+        throw "Erro: Não foi possível acessar sua requisição";
+      }
     } catch (e) {
       throw "$e";
     }

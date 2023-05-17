@@ -16,4 +16,14 @@ class CartRepository {
     // print(apiCart.getProduct());
     apiCart.postCart(product, quantity, orderTotal);
   }
+
+  void updateCart(product, int quantity, orderTotal, id) {
+    // print(apiCart.getProduct());
+    apiCart.updateCart(product, quantity, orderTotal, id);
+  }
+
+  void deleteCart(id) {
+    // print(apiCart.getProduct());
+    apiCart.deleteCart(id);
+  }
 }

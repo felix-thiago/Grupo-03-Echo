@@ -71,7 +71,7 @@ class _MainPageState extends State<MainPage> {
             IconButton(
               onPressed: () {},
               icon: const Icon(
-                Icons.add_shopping_cart,
+                Icons.shopping_cart_outlined,
                 color: Colors.black,
               ),
             )
@@ -93,7 +93,7 @@ class _MainPageState extends State<MainPage> {
             IconButton(
               onPressed: () {},
               icon: const Icon(
-                Icons.add_shopping_cart,
+                Icons.shopping_cart_outlined,
                 color: Colors.black,
               ),
             )

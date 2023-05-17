@@ -7,7 +7,6 @@ import 'package:pi_flutter/provider/api_product.dart';
 import 'package:pi_flutter/repository/product_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:pi_flutter/views/cart_page.dart';
-
 import 'package:pi_flutter/views/produto_page.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -196,13 +195,11 @@ class _HomePageState extends State<HomePage> {
                                 highlightColor:
                                     Color.fromARGB(255, 255, 255, 255),
                                 child: Container(
-
                                   height: 170,
                                   width: 150,
                                   padding: const EdgeInsets.all(8),
                                   // color: Colors.teal[100],
                                   decoration: BoxDecoration(
-
                                     color: Color.fromARGB(255, 221, 221, 221),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -211,14 +208,11 @@ class _HomePageState extends State<HomePage> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                                 child: Shimmer.fromColors(
-
                                   baseColor: Color.fromARGB(255, 193, 193, 193),
                                   highlightColor:
                                       Color.fromARGB(255, 255, 255, 255),
                                   child: Container(
-
                                     height: 30,
-
                                     width: 150,
                                     padding: const EdgeInsets.all(8),
                                     // color: Colors.teal[100],
@@ -228,7 +222,6 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 ),
-
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
@@ -258,7 +251,6 @@ class _HomePageState extends State<HomePage> {
               ),
             )
           ],
-
         ),
       ),
     );
