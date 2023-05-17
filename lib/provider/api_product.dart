@@ -9,19 +9,12 @@ class ApiProduct {
   final http.Client httpClient;
   ApiProduct({required this.httpClient});
 
-  // Future<dynamic> login(String usuario) async {
-  //   dynamic resp;
-
-  //   var el = ProfissionalModel.fromJson('teste');
-  //   resp = el;
-
-  //   return resp;
-  // }
 
   Future<List<dynamic>> getProduct(int itemsQuantity) async {
     List<dynamic> resp;
     resp = [];
-    // var url = Uri.parse(baseUrl);
+
+
     var url =
         Uri.parse('https://fakestoreapi.com/products?limit=$itemsQuantity');
 
@@ -30,16 +23,13 @@ class ApiProduct {
           .get(url, headers: {'Accept': 'application/json; charset=UTF-8'});
 
       if (response.statusCode == 200) {
-        // var jsonResponse = json.decode(response.body)['results'];
 
         List<int> codeUnitsResponse = response.body.codeUnits;
         var utf8Response = const Utf8Decoder().convert(codeUnitsResponse);
         var jsonResponse = convert.jsonDecode(utf8Response);
         // print(jsonResponse);
 
-        // var el = ProfissionalModel.fromJson('teste');
-        // resp = el;
-        // print(jsonResponse);
+
         jsonResponse.forEach(
           (product) {
             var el = ProductModel.fromJson(product);

@@ -1,10 +1,16 @@
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:pi_flutter/models/product_model.dart';
+
+import 'package:pi_flutter/provider/api_cart.dart';
 import 'package:pi_flutter/provider/api_product.dart';
+import 'package:pi_flutter/repository/cart_repository.dart';
+
 import 'package:pi_flutter/repository/product_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:shimmer/shimmer.dart';
@@ -18,6 +24,18 @@ class ProdutoPage extends StatefulWidget {
 }
 
 class _ProdutoPageState extends State<ProdutoPage> {
+
+  var quantity = 1;
+  var orderTotal;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    orderTotal = widget.product.price;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,126 +54,149 @@ class _ProdutoPageState extends State<ProdutoPage> {
               context: context,
               builder: (context) => Dialog(
                 shape: const CircleBorder(),
-                child: Container(
-                  height: 250,
-                  width: 300,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Colors.white,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: Column(
-                      children: [
-                        Container(
-                          // color: Colors.black,
-                          // width: 150,
-                          height: 60,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Adicionar ao carrinho",
-                                style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  icon: const Icon(
-                                    Icons.close,
-                                    size: 22,
-                                  ))
-                            ],
-                          ),
-                        ),
-                        Container(
-                          // color: Colors.black,
-                          // width: 150,
-                          height: 60,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Quantidade",
-                                  style: TextStyle(fontSize: 15)),
-                              Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: const Icon(
-                                      Icons.remove,
-                                      size: 22,
-                                    ),
-                                  ),
-                                  const Text(
-                                    "1",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: const Icon(
-                                      Icons.add,
-                                      size: 22,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          // color: Colors.black,
-                          // width: 150,
-                          height: 60,
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Total no carrinho',
-                                    style: TextStyle(
-                                        fontSize: 12, color: Colors.grey),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(5),
-                                  ),
-                                  Text(
-                                    'Rp 1.500.000',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        // Padding(padding: EdgeInsets.all(15)),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              fixedSize:
-                                  Size(MediaQuery.of(context).size.width, 50),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              backgroundColor:
-                                  Color.fromARGB(255, 54, 105, 201),
-                            ),
-                            onPressed: () {},
-                            child: const Text('Adicionar ao carrinho'))
-                      ],
+
+                child: StatefulBuilder(builder: (context, setState) {
+                  return Container(
+                    height: 250,
+                    width: 300,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: Colors.white,
                     ),
-                  ),
-                ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Column(
+                        children: [
+                          Container(
+                            // color: Colors.black,
+                            // width: 150,
+                            height: 60,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  "Adicionar ao carrinho",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                IconButton(
+
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: const Icon(
+
+                                      Icons.close,
+                                      size: 22,
+                                    ))
+                              ],
+                            ),
+                          ),
+                          Container(
+                            // color: Colors.black,
+                            // width: 150,
+                            height: 60,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("Quantidade",
+                                    style: TextStyle(fontSize: 15)),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        if (quantity > 0) {
+                                          setState(() {
+                                            quantity--;
+                                            orderTotal =
+                                                widget.product.price * quantity;
+                                          });
+                                        }
+                                      },
+                                      icon: const Icon(
+                                        Icons.remove,
+                                        size: 22,
+                                      ),
+                                    ),
+                                    Text(
+                                      "$quantity",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          quantity++;
+                                          orderTotal =
+                                              widget.product.price * quantity;
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.add,
+                                        size: 22,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            // color: Colors.black,
+                            // width: 150,
+                            height: 60,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Total no carrinho',
+                                      style: TextStyle(
+                                          fontSize: 12, color: Colors.grey),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.all(5),
+                                    ),
+                                    Text(
+                                      'R\$ ${orderTotal.toStringAsFixed(2)}',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          // Padding(padding: EdgeInsets.all(15)),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                fixedSize:
+                                    Size(MediaQuery.of(context).size.width, 50),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor:
+                                    Color.fromARGB(255, 54, 105, 201),
+                              ),
+                              onPressed: () {
+                                CartRepository(
+                                        apiCart:
+                                            ApiCart(httpClient: http.Client()))
+                                    .postCart(
+                                        widget.product, quantity, orderTotal);
+                              },
+                              child: const Text('Adicionar ao carrinho'))
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+
               ),
             );
           },
