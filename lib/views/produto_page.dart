@@ -25,12 +25,140 @@ class _ProdutoPageState extends State<ProdutoPage> {
         padding: EdgeInsets.fromLTRB(25, 25, 25, 25),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              fixedSize: Size(MediaQuery.of(context).size.width, 50),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+            fixedSize: Size(MediaQuery.of(context).size.width, 50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            backgroundColor: Color.fromARGB(255, 54, 105, 201),
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => Dialog(
+                shape: const CircleBorder(),
+                child: Container(
+                  height: 250,
+                  width: 300,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: Column(
+                      children: [
+                        Container(
+                          // color: Colors.black,
+                          // width: 150,
+                          height: 60,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Adicionar ao carrinho",
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(
+                                    Icons.close,
+                                    size: 22,
+                                  ))
+                            ],
+                          ),
+                        ),
+                        Container(
+                          // color: Colors.black,
+                          // width: 150,
+                          height: 60,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Quantidade",
+                                  style: TextStyle(fontSize: 15)),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: const Icon(
+                                      Icons.remove,
+                                      size: 22,
+                                    ),
+                                  ),
+                                  const Text(
+                                    "1",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: const Icon(
+                                      Icons.add,
+                                      size: 22,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          // color: Colors.black,
+                          // width: 150,
+                          height: 60,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Total no carrinho',
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.grey),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(5),
+                                  ),
+                                  Text(
+                                    'Rp 1.500.000',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        // Padding(padding: EdgeInsets.all(15)),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize:
+                                  Size(MediaQuery.of(context).size.width, 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              backgroundColor:
+                                  Color.fromARGB(255, 54, 105, 201),
+                            ),
+                            onPressed: () {},
+                            child: const Text('Adicionar ao carrinho'))
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              backgroundColor: Color.fromARGB(255, 54, 105, 201)),
-          onPressed: () {},
+            );
+          },
           child: const Text('Adicionar ao carrinho'),
         ),
       ),
@@ -164,7 +292,9 @@ class _ProdutoPageState extends State<ProdutoPage> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 0.5,
                                     blurRadius: 0.5,
-                                    offset: Offset(0,
+
+                                    offset: const Offset(0,
+
                                         1), // Define o deslocamento da sombra (horizontal, vertical)
                                   ),
                                 ],
@@ -234,7 +364,9 @@ class _ProdutoPageState extends State<ProdutoPage> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 0.5,
                                     blurRadius: 0.5,
-                                    offset: Offset(
+
+                                    offset: const Offset(
+
                                       0,
                                       1,
                                     ), // Define o deslocamento da sombra (horizontal, vertical)
