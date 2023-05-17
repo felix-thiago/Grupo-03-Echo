@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pi_flutter/provider/api_user.dart';
+import 'package:pi_flutter/repository/user_repository.dart';
+import 'package:pi_flutter/views/main_page.dart';
 import 'home_page.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,6 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   String email = '';
   String password = '';
   bool seePassword = false;
+  bool loginStatus = false;
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +73,11 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             keyboardType: TextInputType.emailAddress,
                             decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 18, horizontal: 25),
                               labelText:
-                                  'Digite seu endereço de e-mail/número de telefone',
-                              labelStyle: TextStyle(fontSize: 12),
+                                  'Digite seu endereço de e-mail/telefone',
+                              labelStyle: TextStyle(fontSize: 15),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius:
@@ -111,9 +117,10 @@ class _LoginPageState extends State<LoginPage> {
                                   });
                                 },
                               ),
-                              contentPadding: EdgeInsets.fromLTRB(25, 0, 0, 0),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 18, horizontal: 25),
                               labelText: 'Insira a senha da conta',
-                              labelStyle: TextStyle(fontSize: 12),
+                              labelStyle: TextStyle(fontSize: 15),
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius:
@@ -129,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               fixedSize:
-                                  Size(MediaQuery.of(context).size.width, 50),
+                                  Size(MediaQuery.of(context).size.width, 60),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -137,15 +144,18 @@ class _LoginPageState extends State<LoginPage> {
                                   Color.fromARGB(255, 54, 105, 201)),
                           onPressed: email.isEmpty && password.isEmpty
                               ? null
-                              : () {
-                                  if (email == 'senac.sp@senac.com.br' &&
-                                      password == '1234') {
+                              : () async {
+                                  loginStatus = await UserRepository(
+                                          apiUser: ApiUser(
+                                              httpClient: http.Client()))
+                                      .login(email, password);
+                                  if (loginStatus) {
                                     print('Correto');
-                                    //Navigator.of(context).push(
+                                    // Navigator.of(context).pushNamed('/home');
                                     Navigator.of(context).pushReplacement(
                                         //-- Para eliminar o botao voltar da HomePage
                                         MaterialPageRoute(
-                                            builder: (context) => HomePage()));
+                                            builder: (context) => MainPage()));
                                   } else {
                                     print('Login Invalido');
                                   }
@@ -158,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 125),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.16),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: TextButton(
