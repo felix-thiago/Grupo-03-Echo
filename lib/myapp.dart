@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_flutter/home_controller.dart';
+import 'package:pi_flutter/views/produto_page.dart';
 import 'views/login_page.dart';
 import 'views/home_page.dart';
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         // '/': (context) => HomeController(child: LoginPage()),
-        '/login': (context) => HomePage(),
+        '/home': (context) => HomePage(),
+        '/produto': (context) => ProdutoPage(),
       },
     );
   }
