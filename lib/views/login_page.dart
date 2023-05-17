@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:pi_flutter/views/main_page.dart';
+
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -148,7 +150,9 @@ class _LoginPageState extends State<LoginPage> {
                                     Navigator.of(context).pushReplacement(
                                         //-- Para eliminar o botao voltar da HomePage
                                         MaterialPageRoute(
+
                                             builder: (context) => MainPage()));
+
                                   } else {
                                     print('Login Invalido');
                                   }

@@ -1,12 +1,16 @@
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:pi_flutter/models/product_model.dart';
+
 import 'package:pi_flutter/provider/api_cart.dart';
 import 'package:pi_flutter/provider/api_product.dart';
 import 'package:pi_flutter/repository/cart_repository.dart';
+
 import 'package:pi_flutter/repository/product_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:shimmer/shimmer.dart';
@@ -20,6 +24,7 @@ class ProdutoPage extends StatefulWidget {
 }
 
 class _ProdutoPageState extends State<ProdutoPage> {
+
   var quantity = 1;
   var orderTotal;
 
@@ -29,6 +34,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
     super.initState();
     orderTotal = widget.product.price;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +54,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
               context: context,
               builder: (context) => Dialog(
                 shape: const CircleBorder(),
+
                 child: StatefulBuilder(builder: (context, setState) {
                   return Container(
                     height: 250,
@@ -74,10 +81,12 @@ class _ProdutoPageState extends State<ProdutoPage> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 IconButton(
+
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
                                     icon: const Icon(
+
                                       Icons.close,
                                       size: 22,
                                     ))
@@ -187,6 +196,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
                     ),
                   );
                 }),
+
               ),
             );
           },
@@ -323,7 +333,9 @@ class _ProdutoPageState extends State<ProdutoPage> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 0.5,
                                     blurRadius: 0.5,
+
                                     offset: const Offset(0,
+
                                         1), // Define o deslocamento da sombra (horizontal, vertical)
                                   ),
                                 ],
@@ -393,7 +405,9 @@ class _ProdutoPageState extends State<ProdutoPage> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 0.5,
                                     blurRadius: 0.5,
+
                                     offset: const Offset(
+
                                       0,
                                       1,
                                     ), // Define o deslocamento da sombra (horizontal, vertical)
