@@ -292,7 +292,9 @@ class _ProdutoPageState extends State<ProdutoPage> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 0.5,
                                     blurRadius: 0.5,
+
                                     offset: const Offset(0,
+
                                         1), // Define o deslocamento da sombra (horizontal, vertical)
                                   ),
                                 ],
@@ -362,7 +364,9 @@ class _ProdutoPageState extends State<ProdutoPage> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 0.5,
                                     blurRadius: 0.5,
+
                                     offset: const Offset(
+
                                       0,
                                       1,
                                     ), // Define o deslocamento da sombra (horizontal, vertical)
