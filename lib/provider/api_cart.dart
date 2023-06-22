@@ -14,11 +14,12 @@ class ApiCart {
     List<dynamic> resp;
     resp = [];
 
-    var url = Uri.parse('http://192.168.0.8:3000/cart');
+    var url = Uri.parse('http://10.0.2.2:3000/cart');
 
     try {
       var response = await httpClient
           .get(url, headers: {'Accept': 'application/json; charset=UTF-8'});
+      print(response.statusCode);
 
       if (response.statusCode == 200) {
         List<int> codeUnitsResponse = response.body.codeUnits;
@@ -35,6 +36,7 @@ class ApiCart {
             resp.add(el);
           },
         );
+        print("teste");
       } else {
         print('errooooo');
         throw "Erro: Não foi possível acessar sua requisição";
@@ -60,7 +62,7 @@ class ApiCart {
 
     var body = {"product": newproduct};
     print(json.encode(body));
-    var url = Uri.parse('http://192.168.0.8:3000/cart/');
+    var url = Uri.parse('http://10.0.2.2:3000/cart/');
 
     try {
       var response = await httpClient.post(url,
@@ -90,7 +92,7 @@ class ApiCart {
 
     var body = {"product": newproduct};
     // print(json.encode(body));
-    var url = Uri.parse('http://192.168.0.8:3000/cart/$id');
+    var url = Uri.parse('http://10.0.2.2:3000/cart/$id');
 
     try {
       var response = await httpClient.put(url,
@@ -107,7 +109,7 @@ class ApiCart {
   }
 
   Future<void> deleteCart(id) async {
-    var url = Uri.parse('http://192.168.0.8:3000/cart/$id');
+    var url = Uri.parse('http://10.0.2.2:3000/cart/$id');
 
     try {
       var response = await httpClient.delete(

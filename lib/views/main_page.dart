@@ -7,7 +7,9 @@ import 'package:pi_flutter/provider/api_product.dart';
 import 'package:pi_flutter/repository/product_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:pi_flutter/views/cart_page.dart';
+import 'package:pi_flutter/views/historic_page.dart';
 import 'package:pi_flutter/views/home_page.dart';
+import 'package:pi_flutter/views/login_page.dart';
 import 'package:pi_flutter/views/produto_page.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -43,6 +45,8 @@ class _MainPageState extends State<MainPage> {
         return HomePage();
       case 1:
         return CartPage();
+      case 2:
+        return HistoricPage();
       default:
         return HomePage();
     }
@@ -69,7 +73,11 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _currentIndex = 1;
+                });
+              },
               icon: const Icon(
                 Icons.shopping_cart_outlined,
                 color: Colors.black,
@@ -90,8 +98,34 @@ class _MainPageState extends State<MainPage> {
                 fontWeight: FontWeight.w500),
           ),
           actions: [
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: const Icon(
+            //     Icons.shopping_cart_outlined,
+            //     color: Colors.black,
+            //   ),
+            // )
+          ],
+        );
+      case 2:
+        return AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          centerTitle: true,
+          title: const Text(
+            'Histórico de Compras',
+            style: TextStyle(
+                color: Color.fromARGB(255, 0, 0, 0),
+                fontWeight: FontWeight.w500),
+          ),
+          actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _currentIndex = 1;
+                });
+              },
               icon: const Icon(
                 Icons.shopping_cart_outlined,
                 color: Colors.black,
@@ -118,7 +152,11 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _currentIndex = 1;
+                });
+              },
               icon: const Icon(
                 Icons.add_shopping_cart,
                 color: Colors.black,
@@ -137,16 +175,109 @@ class _MainPageState extends State<MainPage> {
   // void dispose() {
   //   super.dispose();
   // }
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _key,
+        endDrawer: Drawer(
+          child: Column(
+            children: [
+              Container(
+                height: 60,
+                color: Color.fromARGB(255, 255, 255, 255),
+                child: const Row(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 50, left: 40),
+                      child: Icon(
+                        Icons.account_circle_outlined,
+                        size: 35,
+                      ),
+                    ),
+                    Text(
+                      'Conta',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              Divider(
+                height: 5,
+                color: Colors.black,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _currentIndex = 2;
+                  });
+                  _key.currentState?.closeEndDrawer();
+                },
+                child: Container(
+                  height: 40,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Histórico de compras',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Divider(
+                height: 5,
+                color: Colors.black,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(),
+                      ),
+                      (route) => false);
+                },
+                child: Container(
+                  height: 40,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Logout',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Divider(
+                height: 5,
+                color: Colors.black,
+              ),
+            ],
+          ),
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (value) {
-            setState(() {
-              _currentIndex = value;
-            });
+            if (value == 2) {
+              _key.currentState?.openEndDrawer();
+            } else {
+              setState(() {
+                _currentIndex = value;
+              });
+            }
           },
           selectedFontSize: 12,
           unselectedFontSize: 12,

@@ -15,7 +15,7 @@ class ApiBuy {
     List<dynamic> resp;
     resp = [];
 
-    var url = Uri.parse('http://192.168.0.8:3000/sale');
+    var url = Uri.parse('http://10.0.2.2:3000/sale');
 
     try {
       var response = await httpClient
@@ -29,7 +29,7 @@ class ApiBuy {
 
         jsonResponse.forEach(
           (product) {
-            var el = CartProductModel.fromJson(product['product']);
+            var el = BuyModel.fromJson(product);
             resp.add(el);
           },
         );
@@ -51,7 +51,7 @@ class ApiBuy {
 
     print(convert.jsonEncode(newproduct));
     print("namoroooooooooooooooooooooo nunca");
-    var url = Uri.parse('http://192.168.0.8:3000/sale');
+    var url = Uri.parse('http://10.0.2.2:3000/sale');
 
     try {
       var response = await httpClient.post(url,

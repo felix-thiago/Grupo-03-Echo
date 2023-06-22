@@ -180,6 +180,7 @@ class _ProdutoPageState extends State<ProdutoPage> {
                                             ApiCart(httpClient: http.Client()))
                                     .postCart(
                                         widget.product, quantity, orderTotal);
+                                Navigator.pop(context);
                               },
                               child: const Text('Adicionar ao carrinho'))
                         ],
